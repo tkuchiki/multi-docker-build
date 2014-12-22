@@ -82,9 +82,14 @@ func GetTag(tag, image string) string {
 		configJson := DecodeJson(config).(map[string]interface{})
 
 		if _, ok := configJson[image]; ok {
-			return configJson[image].(string)
-		} else {
-			fmt.Println(ok)
+			switch configJson[image].(type) {
+			case int:
+				return fmt.Sprint(configJson[image].(int))
+			case float64:
+				return fmt.Sprint(configJson[image].(float64))
+			case string:
+				return configJson[image].(string)
+			}
 		}
 	}
 
